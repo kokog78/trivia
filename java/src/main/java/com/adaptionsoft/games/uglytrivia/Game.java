@@ -1,11 +1,8 @@
 package com.adaptionsoft.games.uglytrivia;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Game {
 	
-	private List<String> players = new ArrayList<>();
+	private final Players players = new Players();
     private int[] places = new int[6];
     private int[] purses  = new int[6];
     private boolean[] inPenaltyBox  = new boolean[6];
@@ -46,39 +43,41 @@ public class Game {
 	public boolean add(String playerName) {
 		
 		
-	    players.add(playerName);
+		players.addPlayer(playerName);
 	    places[howManyPlayers()] = 0;
 	    purses[howManyPlayers()] = 0;
 	    inPenaltyBox[howManyPlayers()] = false;
 	    
 	    actConsole.addPlayer(playerName);
-	    actConsole.numberOfPlayers(players.size());
+	    actConsole.numberOfPlayers(players.getNumberOfPlayers());
 		return true;
 	}
 	
+	
+	
 	public int howManyPlayers() {
-		return players.size();
+		return players.getNumberOfPlayers();
 	}
 
 	public void roll(int roll) {
-		actConsole.numberOfPlayers(players.get(currentPlayer));
+		actConsole.numberOfPlayers(players.getPlayer(currentPlayer));
 		actConsole.roll(roll);
 		
 		if (inPenaltyBox[currentPlayer]) {
 			if (roll % 2 != 0) {
 				isGettingOutOfPenaltyBox = true;
 				
-				println(players.get(currentPlayer) + " is getting out of the penalty box");
+				println(players.getPlayer(currentPlayer) + " is getting out of the penalty box");
 				places[currentPlayer] = places[currentPlayer] + roll;
 				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 				
-				println(players.get(currentPlayer) 
+				println(players.getPlayer(currentPlayer) 
 						+ "'s new location is " 
 						+ places[currentPlayer]);
 				println("The category is " + currentCategory());
 				askQuestion();
 			} else {
-				println(players.get(currentPlayer) + " is not getting out of the penalty box");
+				println(players.getPlayer(currentPlayer) + " is not getting out of the penalty box");
 				isGettingOutOfPenaltyBox = false;
 				}
 			
@@ -87,7 +86,7 @@ public class Game {
 			places[currentPlayer] = places[currentPlayer] + roll;
 			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
 			
-			println(players.get(currentPlayer) 
+			println(players.getPlayer(currentPlayer) 
 					+ "'s new location is " 
 					+ places[currentPlayer]);
 			println("The category is " + currentCategory());
@@ -118,19 +117,19 @@ public class Game {
 			if (isGettingOutOfPenaltyBox) {
 				println("Answer was correct!!!!");
 				purses[currentPlayer]++;
-				println(players.get(currentPlayer) 
+				println(players.getPlayer(currentPlayer) 
 						+ " now has "
 						+ purses[currentPlayer]
 						+ " Gold Coins.");
 				
 				boolean winner = didPlayerWin();
 				currentPlayer++;
-				if (currentPlayer == players.size()) currentPlayer = 0;
+				if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
 				
 				return winner;
 			} else {
 				currentPlayer++;
-				if (currentPlayer == players.size()) currentPlayer = 0;
+				if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
 				return true;
 			}
 			
@@ -140,14 +139,14 @@ public class Game {
 		
 			println("Answer was corrent!!!!");
 			purses[currentPlayer]++;
-			println(players.get(currentPlayer) 
+			println(players.getPlayer(currentPlayer) 
 					+ " now has "
 					+ purses[currentPlayer]
 					+ " Gold Coins.");
 			
 			boolean winner = didPlayerWin();
 			currentPlayer++;
-			if (currentPlayer == players.size()) currentPlayer = 0;
+			if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
 			
 			return winner;
 		}
@@ -155,11 +154,11 @@ public class Game {
 	
 	public boolean wrongAnswer(){
 		println("Question was incorrectly answered");
-		println(players.get(currentPlayer)+ " was sent to the penalty box");
+		println(players.getPlayer(currentPlayer)+ " was sent to the penalty box");
 		inPenaltyBox[currentPlayer] = true;
 		
 		currentPlayer++;
-		if (currentPlayer == players.size()) currentPlayer = 0;
+		if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
 		return true;
 	}
 

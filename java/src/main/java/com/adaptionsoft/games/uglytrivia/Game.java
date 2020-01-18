@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
+	
 	private List<String> players = new ArrayList<>();
     private int[] places = new int[6];
     private int[] purses  = new int[6];
@@ -20,11 +21,11 @@ public class Game {
     private Console actConsole;
     
     
-    public  Game(){
+    public  Game() {
     	for (int i = 0; i < 50; i++) {
-			popQuestions.add("Pop Question " + i);
-			scienceQuestions.add(("Science Question " + i));
-			sportsQuestions.add(("Sports Question " + i));
+			popQuestions.add(createPopQuestion(i));
+			scienceQuestions.add(createScienceQuestion(i));
+			sportsQuestions.add(createSportQuestion(i));
 			rockQuestions.add(createRockQuestion(i));
     	}
     	
@@ -49,8 +50,24 @@ public class Game {
     	
     }
 
-	public String createRockQuestion(int index){
-		return "Rock Question " + index;
+	private String createRockQuestion(int index) {
+		return createQuestion("Rock", index);
+	}
+	
+	private String createSportQuestion(int index) {
+		return createQuestion("Sports", index);
+	}
+	
+	private String createScienceQuestion(int index) {
+		return createQuestion("Science", index);
+	}
+	
+	private String createPopQuestion(int index) {
+		return createQuestion("Pop", index);
+	}
+	
+	private String createQuestion(String type, int index) {
+		return String.format("%s Question %d", type, index);
 	}
 	
 	public boolean isPlayable() {

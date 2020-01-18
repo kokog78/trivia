@@ -151,8 +151,7 @@ public class Game {
 		println(players.getPlayer(currentPlayer)+ " was sent to the penalty box");
 		players.setPenaltyFor(currentPlayer, true);
 		
-		currentPlayer++;
-		if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
+		nextPlayer();
 		return true;
 	}
 

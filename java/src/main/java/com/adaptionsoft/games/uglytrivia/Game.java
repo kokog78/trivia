@@ -1,8 +1,10 @@
 package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
+
+//	private
 	
-	private final Players players = new Players();
+	private Players players ;
 	private final Places places = new Places();
     
     private int currentPlayer = 0;
@@ -11,7 +13,7 @@ public class Game {
 	Questions questions = new Questions();
     
     
-    public Game() {
+    public Game(Players players) {
     	questions.createQuestion();
     	actConsole = System.out::println;
     }

@@ -18,4 +18,8 @@ public class Players {
 	public String getPlayer(int index) {
 		return players.get(index);
 	}
+	
+	public boolean isPlayable() {
+		return (getNumberOfPlayers() >= 2);
+	}
 }

@@ -143,6 +143,7 @@ public class Game {
 	}
 
 
+	// FIXME wrong method name
 	private boolean didPlayerWin() {
 		return players.didPlayerWin(currentPlayer);
 	}

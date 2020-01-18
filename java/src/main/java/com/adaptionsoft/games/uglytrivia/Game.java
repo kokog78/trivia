@@ -93,43 +93,57 @@ public class Game {
 	}
 
 	public boolean wasCorrectlyAnswered() {
+		
+		boolean winner;
+		
 		if (players.isPenalty(currentPlayer)){
 			if (isGettingOutOfPenaltyBox) {
-				println("Answer was correct!!!!");
-				players.incPurse(currentPlayer);
-				println(players.getPlayer(currentPlayer) 
-						+ " now has "
-						+ players.getPurse(currentPlayer)
-						+ " Gold Coins.");
 				
-				boolean winner = didPlayerWin();
-				currentPlayer++;
-				if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
+				onCorrectAnswer();
+				winner = didPlayerWin();
 				
-				return winner;
 			} else {
-				currentPlayer++;
-				if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
-				return true;
+				winner= true;
 			}
-			
-			
 			
 		} else {
 		
-			println("Answer was corrent!!!!");
-			players.incPurse(currentPlayer);
-			println(players.getPlayer(currentPlayer) 
-					+ " now has "
-					+ players.getPurse(currentPlayer)
-					+ " Gold Coins.");
+			onCorrectAnswer();
+			winner = didPlayerWin();
 			
-			boolean winner = didPlayerWin();
-			currentPlayer++;
-			if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
-			
-			return winner;
 		}
+		nextPlayer();
+		return winner;
+	}
+	
+	private void onCorrectAnswer() {
+		
+		boolean notPenality=!players.isPenalty(currentPlayer);
+		
+		//FIXME TYPO
+		if(notPenality) {
+			
+			println("Answer was corrent!!!!");
+		
+		}else {
+			
+			println("Answer was correct!!!!");
+			
+		}
+		players.incPurse(currentPlayer);
+		println(players.getPlayer(currentPlayer) 
+				+ " now has "
+				+ players.getPurse(currentPlayer)
+				+ " Gold Coins.");
+		
+		
+	}
+	
+	private void nextPlayer() {
+		
+		currentPlayer++;
+		if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;
+		
 	}
 	
 	public boolean wrongAnswer(){

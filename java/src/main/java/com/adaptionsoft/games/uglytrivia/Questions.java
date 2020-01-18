@@ -19,6 +19,7 @@ public class Questions {
     }
     
 	public String askQuestion(String category) {
+		// FIXME String euqality!!!
 		if (category == "Pop")
 			return popQuestions.removeFirst();
 		if (category == "Science")

@@ -39,6 +39,7 @@ public class Game {
 	}
 
 	public boolean add(String playerName) {
+		// FIXME first set place & purse to 0
 		players.addPlayer(playerName);
 	    places[howManyPlayers()] = 0;
 	    purses[howManyPlayers()] = 0;

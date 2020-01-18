@@ -2,10 +2,8 @@ package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
 	
-	private final static int NUMBER_OF_PLACES = 12;
-	
 	private final Players players = new Players();
-    private int[] places = new int[6];
+	private final Places places = new Places();
     private int[] purses  = new int[6];
     private boolean[] inPenaltyBox  = new boolean[6];
     
@@ -41,7 +39,7 @@ public class Game {
 	public boolean add(String playerName) {
 		// FIXME first set place & purse to 0
 		players.addPlayer(playerName);
-	    places[howManyPlayers()] = 0;
+		places.resetPlace(howManyPlayers());
 	    purses[howManyPlayers()] = 0;
 	    inPenaltyBox[howManyPlayers()] = false;
 	    
@@ -65,14 +63,11 @@ public class Game {
 				isGettingOutOfPenaltyBox = true;
 				
 				println(players.getPlayer(currentPlayer) + " is getting out of the penalty box");
-				places[currentPlayer] = places[currentPlayer] + roll;
-				if (places[currentPlayer] >= NUMBER_OF_PLACES) {
-					places[currentPlayer] = places[currentPlayer] - NUMBER_OF_PLACES;
-				}
+				places.changePlace(currentPlayer, roll);
 				
 				println(players.getPlayer(currentPlayer) 
 						+ "'s new location is " 
-						+ places[currentPlayer]);
+						+ places.getPlaceOf(currentPlayer));
 				println("The category is " + currentCategory());
 				askQuestion();
 			} else {
@@ -82,35 +77,23 @@ public class Game {
 			
 		} else {
 		
-			places[currentPlayer] = places[currentPlayer] + roll;
-			if (places[currentPlayer] >= NUMBER_OF_PLACES) {
-				places[currentPlayer] = places[currentPlayer] - NUMBER_OF_PLACES;
-			}
+			places.changePlace(currentPlayer, roll);
 			
 			println(players.getPlayer(currentPlayer) 
 					+ "'s new location is " 
-					+ places[currentPlayer]);
+					+ places.getPlaceOf(currentPlayer));
 			println("The category is " + currentCategory());
 			askQuestion();
 		}
 		
 	}
-
+	
 	private void askQuestion() {
 		println(questions.askQuestion(currentCategory()));
 	}
 	
 	private String currentCategory() {
-		if (places[currentPlayer] == 0) return "Pop";
-		if (places[currentPlayer] == 4) return "Pop";
-		if (places[currentPlayer] == 8) return "Pop";
-		if (places[currentPlayer] == 1) return "Science";
-		if (places[currentPlayer] == 5) return "Science";
-		if (places[currentPlayer] == 9) return "Science";
-		if (places[currentPlayer] == 2) return "Sports";
-		if (places[currentPlayer] == 6) return "Sports";
-		if (places[currentPlayer] == 10) return "Sports";
-		return "Rock";
+		return places.getCategoryOf(currentPlayer);
 	}
 
 	public boolean wasCorrectlyAnswered() {

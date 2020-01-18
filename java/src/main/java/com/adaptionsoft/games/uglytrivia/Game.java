@@ -13,13 +13,7 @@ public class Game {
     
     public Game() {
     	questions.createQuestion();
-    	actConsole = new Console() {
-			
-			@Override
-			public void println(Object output) {
-				System.out.println(output);
-			}
-		};
+    	actConsole = System.out::println;
     }
     
     public void setActConsole(Console actConsole) {
@@ -48,7 +42,7 @@ public class Game {
 	
 	public boolean addKid(String playerName) {
 		
-		return add(playerName+"*");
+		return add(playerName+Players.KINDER_MARK);
 		
 	}
 	
@@ -165,7 +159,7 @@ public class Game {
 	}
 	
 	private boolean isPenaltyAllowed() {
-		return places.getCategoryOf(currentPlayer).equals("Pop") || !players.isKind(currentPlayer);
+		return places.getCategoryOf(currentPlayer).equals("Pop") || !players.isKinder(currentPlayer);
 	}
 
 

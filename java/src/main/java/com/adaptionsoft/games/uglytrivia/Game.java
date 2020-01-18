@@ -5,7 +5,6 @@ public class Game {
 	private final Players players = new Players();
 	private final Places places = new Places();
     private int[] purses  = new int[6];
-    private boolean[] inPenaltyBox  = new boolean[6];
     
     private int currentPlayer = 0;
     private boolean isGettingOutOfPenaltyBox;
@@ -41,14 +40,12 @@ public class Game {
 		players.addPlayer(playerName);
 		places.resetPlace(howManyPlayers());
 	    purses[howManyPlayers()] = 0;
-	    inPenaltyBox[howManyPlayers()] = false;
+	    players.setPenaltyFor(howManyPlayers(), false);
 	    
 	    actConsole.addPlayer(playerName);
 	    actConsole.numberOfPlayers(players.getNumberOfPlayers());
 		return true;
 	}
-	
-	
 	
 	public int howManyPlayers() {
 		return players.getNumberOfPlayers();
@@ -58,7 +55,7 @@ public class Game {
 		actConsole.numberOfPlayers(players.getPlayer(currentPlayer));
 		actConsole.roll(roll);
 		
-		if (inPenaltyBox[currentPlayer]) {
+		if (players.isPenalty(currentPlayer)) {
 			if (roll % 2 != 0) {
 				isGettingOutOfPenaltyBox = true;
 				
@@ -97,7 +94,7 @@ public class Game {
 	}
 
 	public boolean wasCorrectlyAnswered() {
-		if (inPenaltyBox[currentPlayer]){
+		if (players.isPenalty(currentPlayer)){
 			if (isGettingOutOfPenaltyBox) {
 				println("Answer was correct!!!!");
 				purses[currentPlayer]++;
@@ -139,7 +136,7 @@ public class Game {
 	public boolean wrongAnswer(){
 		println("Question was incorrectly answered");
 		println(players.getPlayer(currentPlayer)+ " was sent to the penalty box");
-		inPenaltyBox[currentPlayer] = true;
+		players.setPenaltyFor(currentPlayer, true);
 		
 		currentPlayer++;
 		if (currentPlayer == players.getNumberOfPlayers()) currentPlayer = 0;

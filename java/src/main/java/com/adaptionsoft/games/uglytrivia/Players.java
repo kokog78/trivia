@@ -46,8 +46,11 @@ public class Players {
 	}
 	
 	public boolean didPlayerWin(int player) {
-		return !(getPurse(player) == 6);
+		int limit = isKind(player) ? 4 : 6;
+		return !(getPurse(player) == limit);
 	}
 
-	
+	public boolean isKind(int player) {
+		return getPlayer(player).endsWith("*");
+	}
 }

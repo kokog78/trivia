@@ -149,11 +149,17 @@ public class Game {
 	
 	public boolean wrongAnswer(){
 		println("Question was incorrectly answered");
-		println(players.getPlayer(currentPlayer)+ " was sent to the penalty box");
-		players.setPenaltyFor(currentPlayer, true);
+		if (isPenaltyAllowed()) {
+			println(players.getPlayer(currentPlayer)+ " was sent to the penalty box");
+			players.setPenaltyFor(currentPlayer, true);
+		}
 		
 		nextPlayer();
 		return true;
+	}
+	
+	private boolean isPenaltyAllowed() {
+		return places.getCategoryOf(currentPlayer).equals("Pop") || !players.isKind(currentPlayer);
 	}
 
 

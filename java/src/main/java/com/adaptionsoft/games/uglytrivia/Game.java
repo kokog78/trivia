@@ -2,6 +2,8 @@ package com.adaptionsoft.games.uglytrivia;
 
 public class Game {
 	
+	private final static int NUMBER_OF_PLACES = 12;
+	
 	private final Players players = new Players();
     private int[] places = new int[6];
     private int[] purses  = new int[6];
@@ -15,13 +17,11 @@ public class Game {
     
     public Game() {
     	questions.createQuestion();
-    	actConsole=new Console() {
+    	actConsole = new Console() {
 			
 			@Override
 			public void println(Object output) {
-				
 				System.out.println(output);
-				
 			}
 		};
     }
@@ -31,18 +31,14 @@ public class Game {
 	}
     
     protected void println(Object output) {
-    	
     	actConsole.println(output);
-    	
     }
 	
 	public boolean isPlayable() {
-		return (howManyPlayers() >= 2);
+		return players.isPlayable();
 	}
 
 	public boolean add(String playerName) {
-		
-		
 		players.addPlayer(playerName);
 	    places[howManyPlayers()] = 0;
 	    purses[howManyPlayers()] = 0;
@@ -69,7 +65,9 @@ public class Game {
 				
 				println(players.getPlayer(currentPlayer) + " is getting out of the penalty box");
 				places[currentPlayer] = places[currentPlayer] + roll;
-				if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+				if (places[currentPlayer] >= NUMBER_OF_PLACES) {
+					places[currentPlayer] = places[currentPlayer] - NUMBER_OF_PLACES;
+				}
 				
 				println(players.getPlayer(currentPlayer) 
 						+ "'s new location is " 
@@ -84,7 +82,9 @@ public class Game {
 		} else {
 		
 			places[currentPlayer] = places[currentPlayer] + roll;
-			if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+			if (places[currentPlayer] >= NUMBER_OF_PLACES) {
+				places[currentPlayer] = places[currentPlayer] - NUMBER_OF_PLACES;
+			}
 			
 			println(players.getPlayer(currentPlayer) 
 					+ "'s new location is " 

@@ -1,7 +1,6 @@
 package com.adaptionsoft.games.uglytrivia;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
@@ -11,24 +10,14 @@ public class Game {
     private int[] purses  = new int[6];
     private boolean[] inPenaltyBox  = new boolean[6];
     
-    private LinkedList<String> popQuestions = new LinkedList<>();
-    private LinkedList<String> scienceQuestions = new LinkedList<>();
-    private LinkedList<String> sportsQuestions = new LinkedList<>();
-    private LinkedList<String> rockQuestions = new LinkedList<>();
-    
     private int currentPlayer = 0;
     private boolean isGettingOutOfPenaltyBox;
     private Console actConsole;
+	Questions questions = new Questions();
     
     
-    public  Game() {
-    	for (int i = 0; i < 50; i++) {
-			popQuestions.add(createPopQuestion(i));
-			scienceQuestions.add(createScienceQuestion(i));
-			sportsQuestions.add(createSportQuestion(i));
-			rockQuestions.add(createRockQuestion(i));
-    	}
-    	
+    public Game() {
+    	questions.createQuestion();
     	actConsole=new Console() {
 			
 			@Override
@@ -49,26 +38,6 @@ public class Game {
     	actConsole.println(output);
     	
     }
-
-	private String createRockQuestion(int index) {
-		return createQuestion("Rock", index);
-	}
-	
-	private String createSportQuestion(int index) {
-		return createQuestion("Sports", index);
-	}
-	
-	private String createScienceQuestion(int index) {
-		return createQuestion("Science", index);
-	}
-	
-	private String createPopQuestion(int index) {
-		return createQuestion("Pop", index);
-	}
-	
-	private String createQuestion(String type, int index) {
-		return String.format("%s Question %d", type, index);
-	}
 	
 	public boolean isPlayable() {
 		return (howManyPlayers() >= 2);
@@ -128,16 +97,8 @@ public class Game {
 	}
 
 	private void askQuestion() {
-		if (currentCategory() == "Pop")
-			println(popQuestions.removeFirst());
-		if (currentCategory() == "Science")
-			println(scienceQuestions.removeFirst());
-		if (currentCategory() == "Sports")
-			println(sportsQuestions.removeFirst());
-		if (currentCategory() == "Rock")
-			println(rockQuestions.removeFirst());		
+		println(questions.askQuestion(currentCategory()));
 	}
-	
 	
 	private String currentCategory() {
 		if (places[currentPlayer] == 0) return "Pop";

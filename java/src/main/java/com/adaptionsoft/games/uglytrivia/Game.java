@@ -41,9 +41,15 @@ public class Game {
 		players.resetPurse(howManyPlayers());
 	    players.setPenaltyFor(howManyPlayers(), false);
 	    
-	    actConsole.addPlayer(playerName);
+	    actConsole.addPlayer(players.getPlayer(players.getNumberOfPlayers()-1));
 	    actConsole.numberOfPlayers(players.getNumberOfPlayers());
 		return true;
+	}
+	
+	public boolean addKid(String playerName) {
+		
+		return add(playerName+"*");
+		
 	}
 	
 	public int howManyPlayers() {

@@ -18,7 +18,16 @@ public class Players {
 	}
 	
 	public String getPlayer(int index) {
-		return players.get(index);
+		
+		String actName=players.get(index);
+		
+		if(actName.endsWith("*")) {
+			
+			actName=actName.substring(0, actName.length()-1);
+			
+		}
+		
+		return actName;
 	}
 	
 	public boolean isPlayable() {
@@ -51,6 +60,6 @@ public class Players {
 	}
 
 	public boolean isKind(int player) {
-		return getPlayer(player).endsWith("*");
+		return players.get(player).endsWith("*");
 	}
 }

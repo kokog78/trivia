@@ -50,7 +50,7 @@ public class GameTest {
 	
 	@Test
 	public void kids_wrong_answer_in_pop_category_goes_to_penalty() throws Exception {
-		aGame.add("Bob*");
+		aGame.addKid("Bob");
 		aGame.roll(4);
 		aGame.wrongAnswer();
 		assertConsole("Pop", "incorrectly", "penalty");
@@ -66,7 +66,7 @@ public class GameTest {
 	
 	@Test
 	public void kids_wrong_answer_in_science_category_does_not_go_to_penalty() throws Exception {
-		aGame.add("Bob*");
+		aGame.addKid("Bob");
 		aGame.roll(1);
 		aGame.wrongAnswer();
 		assertConsole("Science", "incorrectly");
@@ -99,13 +99,30 @@ public class GameTest {
 	
 	@Test
 	public void kid_wins_after_4_correct_answers() throws Exception {
-		aGame.add("Bob*");
+		aGame.addKid("Bob");
 		aGame.roll(1);
 		aGame.wasCorrectlyAnswered();
 		aGame.wasCorrectlyAnswered();
 		aGame.wasCorrectlyAnswered();
 		boolean result = aGame.wasCorrectlyAnswered();
 		assertThat(result).isFalse();
+	}
+	
+	@Test
+	public void prints_Player_Name() {
+		
+		aGame.add("Bob");
+		assertConsole("Bob");
+		
+	}
+	
+	@Test
+	public void prints_Kid_Player_Name() {
+		
+		aGame.addKid("Bob");
+		assertConsole("Bob");
+		assertNotConsole("Bob*");
+		
 	}
 	
 	private void assertConsole(String ... substrings) {

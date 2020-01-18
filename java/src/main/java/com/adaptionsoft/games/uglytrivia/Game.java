@@ -4,7 +4,6 @@ public class Game {
 	
 	private final Players players = new Players();
 	private final Places places = new Places();
-    private int[] purses  = new int[6];
     
     private int currentPlayer = 0;
     private boolean isGettingOutOfPenaltyBox;
@@ -39,7 +38,7 @@ public class Game {
 		// FIXME first set place & purse to 0
 		players.addPlayer(playerName);
 		places.resetPlace(howManyPlayers());
-	    purses[howManyPlayers()] = 0;
+		players.resetPurse(howManyPlayers());
 	    players.setPenaltyFor(howManyPlayers(), false);
 	    
 	    actConsole.addPlayer(playerName);
@@ -97,10 +96,10 @@ public class Game {
 		if (players.isPenalty(currentPlayer)){
 			if (isGettingOutOfPenaltyBox) {
 				println("Answer was correct!!!!");
-				purses[currentPlayer]++;
+				players.incPurse(currentPlayer);
 				println(players.getPlayer(currentPlayer) 
 						+ " now has "
-						+ purses[currentPlayer]
+						+ players.getPurse(currentPlayer)
 						+ " Gold Coins.");
 				
 				boolean winner = didPlayerWin();
@@ -119,10 +118,10 @@ public class Game {
 		} else {
 		
 			println("Answer was corrent!!!!");
-			purses[currentPlayer]++;
+			players.incPurse(currentPlayer);
 			println(players.getPlayer(currentPlayer) 
 					+ " now has "
-					+ purses[currentPlayer]
+					+ players.getPurse(currentPlayer)
 					+ " Gold Coins.");
 			
 			boolean winner = didPlayerWin();
@@ -145,6 +144,6 @@ public class Game {
 
 
 	private boolean didPlayerWin() {
-		return !(purses[currentPlayer] == 6);
+		return players.didPlayerWin(currentPlayer);
 	}
 }
